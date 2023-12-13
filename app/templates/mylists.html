@@ -1,0 +1,81 @@
+{% extends "includes/base.html" %}
+{% block title %}My Lists{% endblock %}
+{% block content %}
+<style>
+  .placeholder-square {
+    border: 2px dashed #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .placeholder-square:hover {
+    cursor: pointer;
+    border: 2px dashed var(--bs-success);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+
+  .placeholder-square .plus-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+</style>
+{% include "includes/addlistmodal.html"%}
+<div class="row row-cols-1 row-cols-md-4">
+
+  <!-- List Item -->
+  <div class="col-lg-6">
+    <div class="card overflow-hidden">
+      <div class="card-body p-4">
+        <div class="col row-cols-2 space-arround d-flex">
+          <h5 class="title fw-semibold">Academia</h5>
+          <div class="d-flex justify-content-end">
+            <p class="fs-4 me-1 fw-bold">10/10/10</p>
+            <i class="ti ti-calendar text-danger" style="font-size: 18pt;"></i>
+          </div>
+        </div>        
+        <div class="row align-items-center">
+          <div class="col-8">
+            <div class="col d-flex align-items-center">
+              <h4 class="fw-semibold">4</h4>
+              <p class="muted">/10</p>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="me-4">
+                <button type="button" class="btn btn-outline-success">Visualizar</button>
+              </div>
+              <div>
+                <button type="button" class="btn btn-outline-danger">Excluir</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="d-flex justify-content-end ">
+              <i class="ti ti-barbell text-primary me-1 " style="font-size: 5em;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="placeholder-square w-100 pt-5 pb-5" href="#exampleModalToggle" data-bs-toggle="modal">
+      <span class="plus-icon">+</span>
+      <a>Add List</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

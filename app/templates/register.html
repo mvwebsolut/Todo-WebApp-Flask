@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - ToDo Web App</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
@@ -15,7 +16,7 @@
                 </h2>
             </div>
             <form class="mt-8 space-y-6" action="register" method="POST">
-                <input type="hidden" name="remember" value="true">
+                {{ form.csrf_token }}
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         <label for="first_name" class="sr-only">First Name</label>
@@ -25,11 +26,6 @@
                     <div>
                         <label for="last_name" class="sr-only">Last Name</label>
                         {{ form.last_name(placeholder="Doe", class_="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
-                        <!-- <input id="email-address" name="email" type="email" autocomplete="email" required class="" placeholder="Email address"> -->
-                    </div>
-                    <div>
-                        <label for="username" class="sr-only">Username</label>
-                        {{ form.username(placeholder="username", class_="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm") }}
                         <!-- <input id="email-address" name="email" type="email" autocomplete="email" required class="" placeholder="Email address"> -->
                     </div>
                     <div>

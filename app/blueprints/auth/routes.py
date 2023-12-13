@@ -40,7 +40,7 @@ def login():
             return redirect(url_for("auth.login"))
         
         flash("login realizado com sucesso", "success")
-        login_user(user, remember)
+        login_user(user)
         return redirect(url_for("home.index"))
         
     return render_template("login.html", form=login_form)
@@ -57,24 +57,19 @@ def register():
     if request.method == "POST" and register_form.validate_on_submit():
         first_name = register_form.first_name.data
         last_name = register_form.last_name.data
-        username = register_form.username.data
         password = register_form.password.data
         email = register_form.email.data
 
+        print("OK")
+
         user = User.query.filter_by(email=email).first()
-        if user:
+        if user != None:
             flash("email already registred", "error")
-            return redirect(url_for("auth.register"))
-        
-        user = User.query.filter_by(username=username).first()
-        if user:
-            flash("username already registred", "error")
             return redirect(url_for("auth.register"))
         
         new_user = User(
             first_name=first_name,
             last_name=last_name,
-            username=username,
             email=email,
             password=password,
             create_att=datetime.utcnow()
@@ -83,7 +78,6 @@ def register():
         database.session.commit()
 
         flash("registro realizado com sucesso", "success")
-        login_user(new_user, True)
         return redirect(url_for("home.index"))
     
     return render_template("register.html", form=register_form)
@@ -93,4 +87,5 @@ def register():
 @login_required
 def logout():
     logout_user()
+    flash("logout with successfully", "success")
     return redirect(url_for("auth.login"))

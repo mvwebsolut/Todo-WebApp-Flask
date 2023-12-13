@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - ToDo Web App</title>
+    <link rel="shortcut icon" type="image/png" href="/static/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="/static/assets/css/styles.css" />
+    <link rel="stylesheet" href="/static/assets/css/reset.css" />
+    <link rel="stylesheet" href="/static/assets/css/styles.min.css" />
+    <link rel="stylesheet" href="extensions/sticky-header/bootstrap-table-sticky-header.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        {% include "includes/sidebar.html" %}
+        <!--  Sidebar End -->
+        <!--  Main wrapper -->
+        <div class="body-wrapper">
+            <!--  Header Start -->
+            {% include "includes/header.html" %}
+            <!--  Header End -->
+            <div class="container-fluid">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script src="/static/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="/static/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/js/sidebarmenu.js"></script>
+    <script src="/static/assets/js/app.min.js"></script>
+    <script src="/static/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="/static/assets/libs/simplebar/dist/simplebar.js"></script>
+    <script src="/static/assets/js/dashboard.js"></script>
+    <script src="/static/assets/js/jquery.emojiarea.js"></script>
+    <script src="/static/assets/js/jquery.emojiarea.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/static/assets/js/main.js"></script> 
+    {% include "includes/errors.html" %}
+</body>
+
+</html>

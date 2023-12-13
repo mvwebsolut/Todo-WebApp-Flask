@@ -1,6 +1,6 @@
-{% with errors = get_flashed_messages(category_filter=["error"]) %}
-{% if errors %}
-    {% for msg in errors %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for msg in messages %}
         <script>
             Toastify( { text: "{{ msg }}", duration: 3000} ).showToast();
         </script>

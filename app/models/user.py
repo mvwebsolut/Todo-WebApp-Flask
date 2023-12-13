@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 from app.extensions import database as db
 from app.extensions import login_manager
@@ -10,7 +10,6 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
-    username = db.Column(db.String(120), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     create_att = db.Column(db.DateTime)
@@ -24,4 +23,4 @@ class User(db.Model, UserMixin):
 
 @login_manager.user_loader
 def load_user(id):
-    User.query.filter_by(id=id).first()
+    return User.query.filter_by(id=id).first()
