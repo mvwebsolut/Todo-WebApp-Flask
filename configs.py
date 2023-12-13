@@ -5,5 +5,6 @@ class DebugConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     BLUEPRINTS = [
-        "auth"
+        "auth",
+        "home"
     ]

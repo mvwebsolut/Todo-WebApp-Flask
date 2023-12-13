@@ -2,7 +2,7 @@ from app.extensions import database as db
 
 class TodoList(db.Model):
     __tablename__ = "todo_lists"
-    id = db.Column(db.Integer, primary_key=True, Index=True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(180), nullable=False)
     create_att = db.Column(db.DateTime)
 

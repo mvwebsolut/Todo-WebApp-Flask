@@ -7,7 +7,7 @@ from app.extensions import login_manager
 class User(db.Model, UserMixin):
 
     __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True, Index=True)
+    id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
     username = db.Column(db.String(120), nullable=False, unique=True)
@@ -21,7 +21,6 @@ class User(db.Model, UserMixin):
                 if key == "password":
                     value = generate_password_hash(value)
                 setattr(self, key, value)
-
 
 @login_manager.user_loader
 def load_user(id):
