@@ -50,7 +50,7 @@
             <h5 class="title fw-semibold">{{ lists.title }}</h5>
             <div class="d-flex justify-content-end">
               {% if lists.completed_att is not none %}
-                <p class="fs-4 me-1 fw-bold">{{ lists.completed_att.strftime('%d/%m/%Y') }}</p>
+                <p class="fs-4 me-1 fw-bold">{{ lists.create_att.strftime('%d/%m/%Y') }}</p>
                 <i class="ti ti-calendar text-primary" style="font-size: 18pt;"></i>
               {% else %}
                 <i class="ti ti-infinity text-primary" style="font-size: 18pt;"></i>
@@ -74,7 +74,7 @@
             </div>
             <div class="col-4">
               <div class="d-flex justify-content-end ">
-                <i class="ti ti-barbell text-primary me-1 " style="font-size: 5em;"></i>
+                <span class="" style="font-size: 3em;">{{ lists.icon }}</span>
               </div>
             </div>
           </div>
