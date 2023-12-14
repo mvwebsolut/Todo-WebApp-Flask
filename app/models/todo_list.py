@@ -4,6 +4,8 @@ class TodoList(db.Model):
     __tablename__ = "todo_lists"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(180), nullable=False)
+    icon = db.Column(db.String(180))
+    completed_att = db.Column(db.DateTime)
     create_att = db.Column(db.DateTime)
 
     notes = db.relationship("Note", backref="todo_lists", lazy=True)

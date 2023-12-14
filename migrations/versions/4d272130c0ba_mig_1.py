@@ -1,8 +1,8 @@
-"""Migration1
+"""Mig 1
 
-Revision ID: 405c76792024
+Revision ID: 4d272130c0ba
 Revises: 
-Create Date: 2023-12-13 02:16:54.800625
+Create Date: 2023-12-14 00:49:24.405977
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '405c76792024'
+revision = '4d272130c0ba'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,17 +22,16 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('first_name', sa.String(length=120), nullable=False),
     sa.Column('last_name', sa.String(length=120), nullable=False),
-    sa.Column('username', sa.String(length=120), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('create_att', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('username')
+    sa.UniqueConstraint('email')
     )
     op.create_table('todo_lists',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=180), nullable=False),
+    sa.Column('icon', sa.String(length=180), nullable=True),
     sa.Column('create_att', sa.DateTime(), nullable=True),
     sa.Column('user_owner_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_owner_id'], ['users.id'], ),

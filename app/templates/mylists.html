@@ -34,48 +34,73 @@
 {% include "includes/addlistmodal.html"%}
 <div class="row row-cols-1 row-cols-md-4">
 
-  <!-- List Item -->
-  <div class="col-lg-6">
-    <div class="card overflow-hidden">
-      <div class="card-body p-4">
-        <div class="col row-cols-2 space-arround d-flex">
-          <h5 class="title fw-semibold">Academia</h5>
-          <div class="d-flex justify-content-end">
-            <p class="fs-4 me-1 fw-bold">10/10/10</p>
-            <i class="ti ti-calendar text-danger" style="font-size: 18pt;"></i>
-          </div>
-        </div>        
-        <div class="row align-items-center">
-          <div class="col-8">
-            <div class="col d-flex align-items-center">
-              <h4 class="fw-semibold">4</h4>
-              <p class="muted">/10</p>
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="me-4">
-                <button type="button" class="btn btn-outline-success">Visualizar</button>
-              </div>
-              <div>
-                <button type="button" class="btn btn-outline-danger">Excluir</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="d-flex justify-content-end ">
-              <i class="ti ti-barbell text-primary me-1 " style="font-size: 5em;"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="col-lg-6">
     <div class="placeholder-square w-100 pt-5 pb-5" href="#exampleModalToggle" data-bs-toggle="modal">
       <span class="plus-icon">+</span>
       <a>Add List</a>
     </div>
   </div>
+
+  {% for lists in current_user.lists %}
+  <!-- List Item -->
+    <div class="col-lg-6">
+      <div class="card overflow-hidden">
+        <div class="card-body p-4">
+          <div class="col row-cols-2 space-arround d-flex">
+            <h5 class="title fw-semibold">{{ lists.title }}</h5>
+            <div class="d-flex justify-content-end">
+              {% if lists.completed_att is not none %}
+                <p class="fs-4 me-1 fw-bold">{{ lists.completed_att.strftime('%d/%m/%Y') }}</p>
+                <i class="ti ti-calendar text-primary" style="font-size: 18pt;"></i>
+              {% else %}
+                <i class="ti ti-infinity text-primary" style="font-size: 18pt;"></i>
+              {% endif %}
+            </div>
+          </div>        
+          <div class="row align-items-center">
+            <div class="col-8">
+              <div class="col d-flex align-items-center">
+                <h4 class="fw-semibold">4</h4>
+                <p class="muted">/{{lists.notes|length}}</p>
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="me-4">
+                  <a class="btn btn-outline-primary">View</a>
+                </div>
+                <div>
+                  <a onclick="deleteItem({{lists.id}});" class="btn btn-outline-danger delete_list">Delete</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="d-flex justify-content-end ">
+                <i class="ti ti-barbell text-primary me-1 " style="font-size: 5em;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
 </div>
+
+<script>
+  function deleteItem(id) {
+            fetch('my-lists/' + id, {
+                method: 'DELETE',
+            })
+            .then(response => {
+              console.log('Item excluído com sucesso', response);
+              window.location.reload();
+            })
+            .then(data => {
+                // Lida com a resposta do servidor
+                console.log('Item excluído com sucesso', data);
+            })
+            .catch(error => {
+                console.error('Erro ao excluir o item', error);
+            });
+        }
+</script>
 
 {% endblock %}

@@ -14,6 +14,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     create_att = db.Column(db.DateTime)
 
+    lists = db.relationship("TodoList", backref='user', lazy=True)
+
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             if hasattr(self, key):
