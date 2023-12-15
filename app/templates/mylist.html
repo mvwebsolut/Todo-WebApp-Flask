@@ -1,0 +1,108 @@
+{% extends "includes/base.html" %}
+{% block title %}My List{% endblock %}
+{% block content %}
+<style>
+  .placeholder-square {
+    border: 2px dashed #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .placeholder-square:hover {
+    cursor: pointer;
+    border: 2px dashed var(--bs-success);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+
+  .placeholder-square .plus-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<div class="row row-cols-1 justify-center items-center">
+
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">
+          {{ list_data.title }} {{ list_data.icon }}
+        </h2>
+        <form class="mt-4" action="/my-list/{{list_data.id}}" method="POST">
+          {{ form.csrf_token }}
+          <div class="row row-cols-2 mt-2 ">
+            {{ form.name(class_="form-control", placeholder="Task...") }}
+            {{ form.done_att(class_="form-control mt-2") }}
+            {{ form.add(class_="form-control btn mt-2 btn-primary") }}
+          </div>
+        </form>
+        <ul id="taskList" class="mt-4 row">
+          {% for note in list_data.notes %}
+          <li class="flex items-center justify-between bg-gray-200 p-3 rounded-md mb-3">
+            <span class="font-bold fs-4">{{ note.text }}</span>
+            <div class="flex">
+              <button onclick="completeTask({{list_data.id}}, {{ note.id }})"
+                class="{% if note.completed %} line-through {% endif %} text-white bg-green-500 px-2 py-1 rounded-md mr-2">Complete</button>
+              <button {% if note.completed is true %} disabled {% endif %}
+                onclick="removeTask({{list_data.id}}, {{ note.id }})"
+                class="{% if note.completed %} line-through {% endif %} text-white bg-red-500 px-2 py-1 rounded-md">Remove</button>
+            </div>
+          </li>
+          {% endfor %}
+          <!-- Tasks will be added here dynamically -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function removeTask(list_id, task_id) {
+    fetch('/my-list/' + list_id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ note_id: task_id }),
+    })
+      .then(response => {
+        console.log('Item modificado com sucesso', response);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Erro ao modificado o item', error);
+        window.location.reload();
+      });
+  }
+  function completeTask(list_id, task_id) {
+    fetch('/my-list/' + list_id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ note_id: task_id }),
+    })
+      .then(response => {
+        console.log('Item modificado com sucesso', response);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Erro ao modificado o item', error);
+        window.location.reload();
+      });
+  }
+</script>
+
+{% endblock %}

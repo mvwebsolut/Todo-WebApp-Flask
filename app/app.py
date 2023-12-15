@@ -1,6 +1,7 @@
 from flask import Flask
 from importlib import import_module
 from .extensions import database, login_manager, migrate
+from .custom_filters import completed_tasks_filter
 
 def create_app(config):
     app = Flask(__name__)
@@ -8,6 +9,8 @@ def create_app(config):
 
     init_extensions(app)
     register_blueprint(app)
+
+    app.jinja_env.filters['completed_tasks_filter'] = completed_tasks_filter
 
     return app
 

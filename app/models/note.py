@@ -4,6 +4,7 @@ class Note(db.Model):
     __tablename__ = "notes"
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(200), nullable=False)
+    done_att = db.Column(db.DateTime)
     completed = db.Column(db.Boolean, default=False)
     create_att = db.Column(db.DateTime)
     

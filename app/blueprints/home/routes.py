@@ -1,7 +1,7 @@
 from . import blueprint
 from app.extensions import database
-from app.forms import AddListForm
-from app.models import TodoList
+from app.forms import AddListForm, AddTaskForm
+from app.models import TodoList, User, Note
 
 from datetime import datetime
 from flask import redirect, url_for, request, flash, render_template
@@ -59,6 +59,97 @@ def my_lists_delete(list_id):
 @login_required
 def my_tasks():
     return render_template("mytasks.html")
+
+
+@blueprint.route('/my-list/<list_id>', methods=["GET", "POST"])
+@login_required
+def my_list(list_id):
+
+    add_task_form = AddTaskForm()
+    todo_list = TodoList.query.filter(
+        TodoList.user_owner_id == current_user.id,
+        TodoList.id == list_id
+    ).first()
+
+    if request.method == "POST" and add_task_form.validate_on_submit():
+        name = add_task_form.name.data
+        done_att = add_task_form.done_att.data
+
+        new_note = Note(
+            text=name,
+            done_att=done_att,
+            create_att=datetime.utcnow()
+        )
+
+        todo_list.notes.append(new_note)
+
+        database.session.add(new_note)
+        database.session.commit()
+
+        flash("Task added with success", "success")
+
+        return redirect(request.url, 302)
+
+    
+    return render_template("mylist.html", form=add_task_form, list_data=todo_list)
+
+
+@blueprint.route('/my-list/<list_id>', methods=["DELETE"])
+@login_required
+def my_list_delete(list_id):
+
+    note_id = request.json['note_id']
+
+    note = Note.query.filter(
+        Note.todo_list_id == list_id,
+        Note.id == note_id
+    ).first()
+
+    if note: 
+        
+        database.session.delete(note)
+        database.session.commit()
+
+        flash("Note deleted with success", "success")
+
+        return redirect(request.url, 302)
+    
+    flash("Note not found", "error")
+    
+    return redirect(request.url, 302)
+
+
+@blueprint.route('/my-list/<list_id>', methods=["PUT"])
+@login_required
+def my_list_complete(list_id):
+
+    note_id = request.json['note_id']
+
+    note = Note.query.filter(
+        Note.todo_list_id == list_id,
+        Note.id == note_id
+    ).first()
+
+    if note: 
+
+        if note.completed:
+            note.completed = False
+        else:
+            note.completed = True
+        
+        database.session.commit()
+
+        flash("Note modified with success", "success")
+
+        return redirect(request.url, 302)
+    
+    flash("Note not found", "error")
+
+    return redirect(request.url, 302)
+
+
+
+
 
 
 

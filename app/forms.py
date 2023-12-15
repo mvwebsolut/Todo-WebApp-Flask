@@ -22,3 +22,9 @@ class AddListForm(FlaskForm):
     date_completed = DateField("Completed Att", validators=[DataRequired()])
     add = SubmitField("Add List")
 
+class AddTaskForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    done_att = DateField("Name", validators=[DataRequired()])
+    add = SubmitField("Add Task")
+
+

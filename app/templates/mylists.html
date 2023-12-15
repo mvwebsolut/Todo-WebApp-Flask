@@ -60,12 +60,12 @@
           <div class="row align-items-center">
             <div class="col-8">
               <div class="col d-flex align-items-center">
-                <h4 class="fw-semibold">4</h4>
-                <p class="muted">/{{lists.notes|length}}</p>
+                <h4 class="fw-semibold">{{ lists.id | completed_tasks_filter }}</h4>
+                <p class="muted"> / {{lists.notes|length}}</p>
               </div>
               <div class="d-flex align-items-center">
                 <div class="me-4">
-                  <a class="btn btn-outline-primary">View</a>
+                  <a class="btn btn-outline-primary" href="my-list/{{lists.id}}">View</a>
                 </div>
                 <div>
                   <a onclick="deleteItem({{lists.id}});" class="btn btn-outline-danger delete_list">Delete</a>
