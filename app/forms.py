@@ -19,7 +19,6 @@ class RegisterForm(FlaskForm):
 class AddListForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     icon = StringField("Icon", validators=[DataRequired()])
-    date_completed = DateField("Completed Att", validators=[DataRequired()])
     add = SubmitField("Add List")
 
 class AddTaskForm(FlaskForm):

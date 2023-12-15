@@ -21,21 +21,20 @@ def my_lists():
 
     if request.method == "POST" and add_list_form.validate_on_submit():
 
+        
         name = add_list_form.name.data
         icon = add_list_form.icon.data
-        completed_att = add_list_form.date_completed.data
 
         new_list = TodoList(
             title=name,
             icon=icon,
-            completed_att=completed_att,
             create_att=datetime.utcnow(),
             user_owner_id=current_user.id
         )
         
         database.session.add(new_list)
         database.session.commit()
-
+        
         flash("List created with success", "success")
         return redirect(url_for("home.my_lists"))
 

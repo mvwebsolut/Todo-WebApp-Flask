@@ -70,38 +70,42 @@
 
 <script>
   function removeTask(list_id, task_id) {
-    fetch('/my-list/' + list_id, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ note_id: task_id }),
-    })
-      .then(response => {
-        console.log('Item modificado com sucesso', response);
-        window.location.reload();
-      })
-      .catch(error => {
-        console.error('Erro ao modificado o item', error);
-        window.location.reload();
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "DELETE",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK DELETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
       });
+    }
   }
   function completeTask(list_id, task_id) {
-    fetch('/my-list/' + list_id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ note_id: task_id }),
-    })
-      .then(response => {
-        console.log('Item modificado com sucesso', response);
-        window.location.reload();
-      })
-      .catch(error => {
-        console.error('Erro ao modificado o item', error);
-        window.location.reload();
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "PUT",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK COMPLETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
       });
+    }
   }
 </script>
 
