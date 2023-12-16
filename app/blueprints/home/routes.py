@@ -65,11 +65,6 @@ def my_lists_delete(list_id):
         flash("list not found", "error")
         return redirect(url_for("home.my_lists"))
 
-@blueprint.route('/my-tasks')
-@login_required
-def my_tasks():
-    return render_template("mytasks.html")
-
 
 @blueprint.route('/my-list/<list_id>', methods=["GET", "POST"])
 @login_required
@@ -158,7 +153,10 @@ def my_list_complete(list_id):
     return redirect(request.url, 302)
 
 
-
+@blueprint.route('/my-tasks')
+@login_required
+def my_tasks():
+    return render_template("mytasks.html")
 
 
 

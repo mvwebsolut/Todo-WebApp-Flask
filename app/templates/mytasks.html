@@ -55,8 +55,8 @@
                       Action
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                      <li><a class="dropdown-item {% if note.completed %} text-warning {% else %} text-success {% endif %}" onclick="completeTask({{note.todo_list_id}}, {{note.id}})" href="#">{% if note.completed %} Undone {% else %} Done {% endif %}</a></li>
+                      <li><a class="dropdown-item text-danger" onclick="removeTask({{note.todo_list_id}}, {{note.id}})" href="#">Delete</a></li>
                     </ul>
                   </div>
                 </td>
@@ -68,6 +68,49 @@
       </table>
     </div>
   </div>
+
 </div>
+
+<script>
+  function removeTask(list_id, task_id) {
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "DELETE",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK DELETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
+      });
+    }
+  }
+
+  function completeTask(list_id, task_id) {
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "PUT",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK COMPLETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
+      });
+    }
+  }
+</script>
 
 {% endblock %}

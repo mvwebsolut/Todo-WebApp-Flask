@@ -12,6 +12,9 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
+
+    reset_pass_token = db.Column(db.String(255))
+
     create_att = db.Column(db.DateTime)
 
     lists = db.relationship("TodoList", backref='user', lazy=True)

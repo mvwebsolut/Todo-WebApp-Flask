@@ -16,6 +16,11 @@ class RegisterForm(FlaskForm):
     accept_terms = BooleanField("TOS", validators=[DataRequired()])
     register = SubmitField("Register")
 
+class ResetPassForm(FlaskForm):
+    password = PasswordField("Name", validators=[DataRequired()])
+    confirm_pass = PasswordField("Icon", validators=[DataRequired(), EqualTo('password')])
+    reset = SubmitField("Reset")
+
 class AddListForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     icon = StringField("Icon", validators=[DataRequired()])

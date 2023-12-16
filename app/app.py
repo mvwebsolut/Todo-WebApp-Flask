@@ -17,12 +17,10 @@ def create_app(config):
 
     return app
 
-
 def init_extensions(app: Flask):
     database.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, database)
-
 
 def register_blueprint(app: Flask):
     for module_name in app.config['BLUEPRINTS']:

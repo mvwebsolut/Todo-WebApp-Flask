@@ -1,10 +1,10 @@
 from . import blueprint
 from app.extensions import database
 from app.models import User
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, ResetPassForm
 
 from datetime import datetime
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask import redirect, url_for, request, flash, render_template
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -44,7 +44,6 @@ def login():
         return redirect(url_for("home.index"))
         
     return render_template("login.html", form=login_form)
-
     
 @blueprint.route('/register', methods=["POST", "GET"])
 def register():
@@ -82,6 +81,22 @@ def register():
     
     return render_template("register.html", form=register_form)
 
+@blueprint.route('/reset-pass', methods=["POST", "GET"])
+def reset_pass():
+    reset_pass_form = ResetPassForm()
+
+    if request.method == "POST" and reset_pass_form.validate_on_submit():
+        password = reset_pass_form.password.data
+        conf_password = reset_pass_form.confirm_pass.data
+
+        current_user.password = generate_password_hash(password)
+
+        database.session.commit()
+
+        flash("senha atualizada com sucesso", "success")
+        return redirect(url_for("home.index"))
+
+    return render_template("resetpass.html", form=reset_pass_form)
 
 @blueprint.route('/logout')
 @login_required
