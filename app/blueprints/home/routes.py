@@ -6,12 +6,23 @@ from app.models import TodoList, User, Note
 from datetime import datetime
 from flask import redirect, url_for, request, flash, render_template
 from flask_login import login_user, logout_user, login_required, current_user
+from sqlalchemy import desc
 
 
 @blueprint.route('/')
 @login_required
 def index():
-    return render_template("index.html")
+    todo_lists = current_user.lists
+    notes_desc = []
+    for todo_list in todo_lists:
+        notas = (
+            Note.query
+            .filter_by(todo_list_id=todo_list.id)
+            .order_by(Note.create_att.desc())
+            .all()
+        )
+        notes_desc.extend(notas)
+    return render_template("index.html", latest_tasks=notes_desc)
 
 @blueprint.route('/my-lists', methods=["GET", "POST"])
 @login_required

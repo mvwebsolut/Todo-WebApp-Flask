@@ -20,6 +20,9 @@
               <h6 class="fw-semibold mb-0">Time to Done</h6>
             </th>
             <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">Status</h6>
+            </th>
+            <th class="border-bottom-0">
               <h6 class="fw-semibold mb-0">Action</h6>
             </th>
           </tr>
@@ -39,6 +42,11 @@
                 </td>
                 <td class="border-bottom-0">
                   <h6 class="fw-semibold mb-0 fs-4">{{ note.done_att.strftime("%d/%m/%Y")}}</h6>
+                </td>
+                <td class="border-bottom-0">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge {% if note.completed %} bg-success {% else %} bg-warning {% endif %} rounded-3 fw-semibold">{% if note.completed %} Done {% else %} Pending {% endif %}</span>
+                  </div>
                 </td>
                 <td class="border-bottom-0">
                   <div class="dropdown">

@@ -22,7 +22,10 @@
                   <h6 class="fw-semibold mb-0">List</h6>
                 </th>
                 <th class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0">Time to Done</h6>
+                  <h6 class="fw-semibold mb-0">Created Att</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">Status</h6>
                 </th>
                 <th class="border-bottom-0">
                   <h6 class="fw-semibold mb-0">Action</h6>
@@ -30,17 +33,25 @@
               </tr>
             </thead>
             <tbody>
+              {% for task in latest_tasks %}
               <tr>
                 <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
+                  <h6 class="fw-semibold mb-1">{{ task.text }}</h6>
                 </td>
                 <td class="border-bottom-0">
                   <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
+                    <span class="badge bg-primary rounded-3 fw-semibold">{{ task.todo_list_id|get_list_by_id }}</span>
                   </div>
                 </td>
                 <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
+                  <h6 class="fw-semibold mb-0 fs-4">{{ task.create_att.strftime("%d/%m/%Y %H:%M") }}</h6>
+                </td>
+                <td class="border-bottom-0">
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="badge {% if task.completed %} bg-success {% else %} bg-warning {% endif %} rounded-3 fw-semibold">{%
+                      if task.completed %} Done {% else %} Pending {% endif %}</span>
+                  </div>
                 </td>
                 <td class="border-bottom-0">
                   <div class="dropdown">
@@ -49,187 +60,13 @@
                       Action
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                      <li><a class="dropdown-item {% if task.completed %} text-warning {% else %} text-success {% endif %}" onclick="completeTask({{task.todo_list_id}}, {{task.id}})" href="#">{% if task.completed %} Undone {% else %} Done {% endif %}</a></li>
+                      <li><a class="dropdown-item text-danger" onclick="removeTask({{task.todo_list_id}}, {{task.id}})" href="#">Delete</a></li>
                     </ul>
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-1">Clean kitchen</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-3 fw-semibold">Home</span>
-                  </div>
-                </td>
-                <td class="border-bottom-0">
-                  <h6 class="fw-semibold mb-0 fs-4">3 Days</h6>
-                </td>
-                <td class="border-bottom-0">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      Action
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      <li><a class="dropdown-item text-success" href="#">Done</a></li>
-                      <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -245,46 +82,59 @@
       </div>
       <div class="card-body">
         <ul class="list-group overflow-auto" style="max-height: 300px;">
+          {% for lista in current_user.lists %}
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Home
-            <span class="badge bg-primary rounded-pill">14</span>
+            {{ lista.title }}
+            <span class="badge bg-primary rounded-pill">{{ lista.id | get_completed_tasks_from_list }}</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Work
-            <span class="badge bg-primary rounded-pill">2</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Gym
-            <span class="badge bg-primary rounded-pill">1</span>
-          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function removeTask(list_id, task_id) {
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "DELETE",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK DELETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
+      });
+    }
+  }
+
+  function completeTask(list_id, task_id) {
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "PUT",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK COMPLETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
+      });
+    }
+  }
+</script>
+
 
 {% endblock %}
