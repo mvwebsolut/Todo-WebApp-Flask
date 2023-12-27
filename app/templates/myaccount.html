@@ -1,0 +1,139 @@
+{% extends "includes/base.html" %}
+{% block title %}My List{% endblock %}
+{% block content %}
+<style>
+  
+  .temp{
+    position: relative;
+    display: inline-block;
+  }
+
+  .status{
+      width: 16px;
+      height:16px;
+      border-top-left-radius: 50% 50%;
+      border-top-right-radius: 50% 50%;
+      border-bottom-right-radius: 50% 50%;
+      border-bottom-left-radius: 50% 50%;
+      border: 2px solid #CCC;
+      margin-bottom: 2px;
+      background-color: green;
+
+      position: absolute;
+
+    }
+  
+  .bottomRight{
+     bottom: 0;
+     right: 0;
+  }
+
+  .placeholder-square {
+    border: 2px dashed #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .placeholder-square:hover {
+    cursor: pointer;
+    border: 2px dashed var(--bs-success);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+
+  .placeholder-square .plus-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<div class="row row-cols-1 justify-center ">
+
+  <div class="col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Avatar</h5>
+        <div class="wrapper">
+          <img src="/static/assets/images/profile/{{ current_user.profile_pic }}" class="rounded-circle">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">My Account</h5>
+        <form action="my-account" method="post">
+          <div class="mb-3">
+            <label for="first_name" class="form-label">First name</label>
+            <input type="text" class="form-control" id="first_name" value="{{ current_user.first_name }}">
+          </div>
+          <div class="mb-3">
+            <label for="last_name" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="last_name" value="{{ current_user.last_name }}">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" value="{{ current_user.email }}">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function removeTask(list_id, task_id) {
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "DELETE",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK DELETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
+      });
+    }
+  }
+  function completeTask(list_id, task_id) {
+    var isLoading = false;
+    if (!isLoading) {
+      isLoading = true;
+      $.ajax({
+        type: "PUT",
+        url: "/my-list/" + list_id,
+        contentType: "application/json",
+        async: true,
+        complete: function () {
+          window.location.reload();
+        },
+        success: function (msg) {
+          console.log("TASK MARK COMPLETED!")
+        },
+        data: JSON.stringify({ note_id: task_id })
+      });
+    }
+  }
+</script>
+
+{% endblock %}

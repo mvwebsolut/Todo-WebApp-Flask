@@ -158,6 +158,11 @@ def my_list_complete(list_id):
 def my_tasks():
     return render_template("mytasks.html")
 
+@blueprint.route('/my-account')
+@login_required
+def my_account():
+    return render_template("myaccount.html")
+
 
 
 

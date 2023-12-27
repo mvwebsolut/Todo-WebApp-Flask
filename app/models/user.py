@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
+    profile_pic = db.Column(db.String(255), default="avatar.jpg")
 
     reset_pass_token = db.Column(db.String(255))
 
